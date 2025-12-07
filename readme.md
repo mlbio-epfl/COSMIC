@@ -61,8 +61,6 @@ Below is a high-level workflow. You can adapt paths, configs, and script names t
   data/
   ```
 
----
-
 ### 2. Training
 
 You can train COSMIC in one or both directions:
@@ -81,7 +79,6 @@ You can train COSMIC in one or both directions:
    ```bash
    python ./img2seq/mouse.py
    ```
----
 
 ### 3. Evaluation
 
@@ -105,4 +102,3 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    ```bash
    python eval_swd.py
    ```
----

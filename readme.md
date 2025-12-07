@@ -54,12 +54,13 @@ Below is a high-level workflow. You can adapt paths, configs, and script names t
 ### 1. Data Preparation
 
 - Download the datasets from the Google Drive link:
-  - Processed single-cell RNA-seq (e.g. `.h5ad` files).
-  - Nuclear segmentation images (e.g. `.png`, `.tif`) and metadata.
-- Place them under a common root, for example:
+  - Processed single-cell RNA-seq (`mouse_IRIS.h5ad` and `human_IRIS.h5ad`).
+  - Single-cell nuclear images (`mouse_IRIS_images.zip`, `human_IRIS_images.zip`).
+- Place them under a common root:
   ```text
-  data/
+  ./data/
   ```
+- Unzip the zip file of the nuclear images. You will get images named with `cell_id.png`.
 
 ### 2. Training
 

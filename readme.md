@@ -74,9 +74,11 @@ You can train COSMIC in one or both directions:
    First, we need to get the features from gene expression using scVI:
 
    ```bash
-   python ./seq2img/train_mouse.py
+   python ./seq2img/scVI_mouse.py
    ```
-
+   
+   Then, we train the diffusion model conditioned on the gene expression features:
+   
    ```bash
    python ./seq2img/train_mouse.py
    ```

@@ -99,7 +99,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    - For img2seq: predict gene expression for held-out images.
 
    ```bash
-   python inference_human.py
+   python inference_mouse.py
    ```
 
 2. **Compute quantitative metrics**

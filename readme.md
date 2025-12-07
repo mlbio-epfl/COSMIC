@@ -35,7 +35,7 @@ This repository provides:
 
 2. **Create and activate a Python environment** (conda, mamba, or venv)
    ```bash
-   conda create -n cosmic python=3.10
+   conda create -n cosmic python=3.9
    conda activate cosmic
    ```
 

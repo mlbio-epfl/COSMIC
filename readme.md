@@ -66,16 +66,22 @@ Below is a high-level workflow. You can adapt paths, configs, and script names t
 
 You can train COSMIC in one or both directions:
 
-- **seq2img**: generate morphology from gene expression.
-- **img2seq**: predict gene expression from images.
+- **seq2img**: generate nuclear images from gene expression.
+- **img2seq**: predict gene expression from nuclear images.
 
 1. **Train seq2img**
+
+   First, we need to get the features from gene expression using scVI:
 
    ```bash
    python ./seq2img/train_mouse.py
    ```
 
-2. **Train img2seq**
+   ```bash
+   python ./seq2img/train_mouse.py
+   ```
+
+3. **Train img2seq**
 
    ```bash
    python ./img2seq/mouse.py

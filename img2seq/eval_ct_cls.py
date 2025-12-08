@@ -4,17 +4,13 @@ warnings.filterwarnings("ignore")
 import argparse
 
 import scanpy as sc
-from scipy.stats import pearsonr, spearmanr
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import confusion_matrix
-import itertools
 
 ### 0. CLI + Initialization
 ### 0.1. Parse command-line arguments

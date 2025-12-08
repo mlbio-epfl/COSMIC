@@ -59,22 +59,27 @@ You can train COSMIC and run inference in one or both directions:
 
 **2.1. Seq2img**
 
-   2.1.1. Here, we use the mouse data as an example. First, we need to get the features from gene expression using scVI:
+   2.1.1. Here, we use the mouse data as an example. First, you need to get the features from gene expression using scVI:
 
    ```bash
    python ./seq2img/scVI_mouse.py
    ```
+
+   After running this, you will get `feature_mouse_scvi.pt` in `./seq2img/feature`. If you want to skip this step, you can download the features directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
    
-   2.1.2. Then, we train the diffusion model conditioned on the gene expression features:
+   2.1.2. Then, you can train the diffusion model conditioned on the gene expression features:
    
    ```bash
    python ./seq2img/train_mouse.py
    ```
 
-   2.1.3. Finally, we run the inference to generate nuclear images:
+   During training, you can keep checking the intermediate results in `./seq2img/result/mouse`. After training, you will have a checkpoint `seq2img_mouse.pt` in `./seq2img/ckpt`
+
+   2.1.3. Finally, you can run the inference to generate nuclear images:
    ```bash
    python ./seq2img/inference_mouse.py
    ```
+   The generated images will be saved in the folder `./seq2img/inference/mouse`.
 
 **2.2. Img2seq**
 

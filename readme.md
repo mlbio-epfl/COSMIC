@@ -42,7 +42,7 @@ Below is a high-level workflow. You can adapt paths, configs, and script names t
 ### 1. Data Preparation
 
 - Download the datasets from the Google Drive link:
-  - Processed single-cell RNA-seq (`mouse_IRIS.h5ad` and `human_IRIS.h5ad`).
+  - Processed single-cell RNA-seq (`IRIS_mouse.h5ad` and `IRIS_human.h5ad`).
   - Single-cell nuclear images (`mouse_IRIS_images.zip`, `human_IRIS_images.zip`).
 - Place them under a common root:
   ```text

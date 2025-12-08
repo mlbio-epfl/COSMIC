@@ -59,7 +59,7 @@ You can train COSMIC and run inference in one or both directions:
 
 **2.1. Seq2img**
 
-   2.1.1. Here, we use the mouse data as an example. First, you need to get the features from gene expression using scVI:
+   **2.1.1.** Here, we use the mouse data as an example. First, you need to get the features from gene expression using scVI:
 
    ```bash
    python ./seq2img/scVI_mouse.py
@@ -67,7 +67,7 @@ You can train COSMIC and run inference in one or both directions:
 
    After running this, you will get `feature_mouse_scvi.pt` in `./seq2img/feature`. If you want to skip this step, you can download the features directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
    
-   2.1.2. Then, you can train the diffusion model conditioned on the gene expression features:
+   **2.1.2.** Then, you can train the diffusion model conditioned on the gene expression features:
    
    ```bash
    python ./seq2img/train_mouse.py
@@ -75,7 +75,7 @@ You can train COSMIC and run inference in one or both directions:
 
    During training, you can keep checking the intermediate results in `./seq2img/result/mouse`. After training, you will have a checkpoint `seq2img_mouse.pt` in `./seq2img/ckpt`. If you want to skip this step, you can download the checkpoints directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
 
-   2.1.3. Finally, you can run the inference to generate nuclear images:
+   **2.1.3.** Finally, you can run the inference to generate nuclear images:
    ```bash
    python ./seq2img/inference_mouse.py
    ```
@@ -93,7 +93,7 @@ You can train COSMIC and run inference in one or both directions:
 
 Once models are trained, you can evaluate fidelity, diversity, and cross-modal consistency.
 
-1. **Evaluate generated nuclear images**
+**1. Evaluate generated nuclear images**
    
    First, we evaluate the generated images in our morphology FM embedding space. Thus, let's first get the embedding:
    ```bash
@@ -121,7 +121,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    python ./seq2img/eval_ct_cls.py
    ```
 
-3. **Evaluate generated gene expression**
+**2. Evaluate generated gene expression**
 
    - **Per-gene Pearson correlation** between predicted and ground-truth expression across different cell types:
    ```bash

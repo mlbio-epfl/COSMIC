@@ -59,7 +59,7 @@ You can train COSMIC and run inference in one or both directions:
 
 2.1. **Seq2img**
 
-   Here, we use the mouse data as an example. First, we need to get the features from gene expression using scVI:
+   2.1.1. Here, we use the mouse data as an example. First, we need to get the features from gene expression using scVI:
 
    ```bash
    python ./seq2img/scVI_mouse.py

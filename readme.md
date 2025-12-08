@@ -111,7 +111,17 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
 
 3. **Evaluate generated gene expression**
 
-   - **Per-gene Pearson correlation** between predicted and ground-truth expression.
-   
+   - **Per-gene Pearson correlation** between predicted and ground-truth expression across different cell types:
+   ```bash
+   python ./img2seq/eval_pcorr_acrossCT.py
+   ```
+   - **Per-gene Pearson correlation** between predicted and ground-truth expression within each cell type:
+   ```bash
+   python ./img2seq/eval_pcorr_withinCT.py
+   ```
+   - **Cell type classification** on generated gene expression:
+   ```bash
+   python ./img2seq/eval_ct_cls.py
+   ```
 
    

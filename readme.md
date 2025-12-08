@@ -9,19 +9,7 @@ This is currently only a template and will be finished soon.
 ---
 
 ## Overview
-
-COSMIC is designed to:
-
-- Learn a shared representation between **gene expression** and **nuclear morphology**.
-- Generate realistic nuclear images from single-cell gene expression profiles (seq2img).
-- Infer gene expression from nuclear images (img2seq).
-
-This repository provides:
-
-- Data loading and preprocessing utilities for single-cell RNA-seq and image data.
-- Model definitions for encoders, decoders, and conditional diffusion components.
-- Training scripts for COSMIC in both directions.
-- Evaluation scripts and example notebooks for reproducing key results.
+COSMIC is a bidirectional generative framework that links single-cell morphology with gene expression. Built on a foundation model trained on over 21 million segmented nuclei and coupled to transcriptomic embeddings, COSMIC quantitatively decomposes transcriptional variance reflected in morphology and morphological variance explained by gene expression. Using a new IRIS-based multimodal dataset that captures high-resolution images and transcriptomes from the same cells, COSMIC accurately models cell type identity, continuous dynamics such as cell cycle progression, and treatment response in prostate cancer. This framework establishes a quantitative bridge between cellular form and gene expression, enabling mechanistic discovery and predictive modeling in basic and translational cell biology.
 
 ---
 

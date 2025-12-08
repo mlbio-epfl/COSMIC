@@ -87,7 +87,7 @@ You can train COSMIC and run inference in one or both directions:
    ```bash
    python ./img2seq/mouse.py
    ```
-   After running, you will get both the model checkpoint and the predicted genes.
+   After running, you will get both the model checkpoint and the predicted genes in the file `img2seq_mouse.pt` in `./img2seq/inference`. The keys to the checkpoint and the inference are "model_ckpt" and "pred_genes".
 
 ### 3. Evaluation
 

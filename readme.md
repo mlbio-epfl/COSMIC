@@ -89,6 +89,7 @@ You can train COSMIC and run inference in one or both directions:
 Once models are trained, you can evaluate fidelity, diversity, and cross-modal consistency.
 
 1. **Evaluate generated nuclear images**
+   
    First, we evaluate the generated images in our morphology FM embedding space. Thus, let's first get the embedding:
    ```bash
    python ./seq2img/get_embedding.py

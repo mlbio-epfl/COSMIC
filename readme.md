@@ -99,6 +99,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    ```bash
    python ./seq2img/get_embedding.py
    ```
+   After running this, you will get `feature_mouse_morphFM.pt` in `./seq2img/feature`. If you want to skip this step, you can download the features directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
    
    Then, we can start evaluating:
    - **Coverage (COV)** to measure how well the generated embeddings cover the real embeddings:
@@ -114,7 +115,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    python ./seq2img/eval_knna.py
    ```
 
-   Besides, we can directly evaluate the generated images in the original image space by checking whether they preserve the correct cell type:
+   Besides, we can directly evaluate the generated images in the original image space by checking whether they preserve the correct cell type. Before running, please download the pretrained classifier `classifier_img.pt` from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link) and put it into the folder `./ckpt`. Then, you can run:
    - **Cell type classification** on generated nuclear images:
    ```bash
    python ./seq2img/eval_ct_cls.py

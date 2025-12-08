@@ -52,12 +52,12 @@ Below is a high-level workflow. You can adapt paths, configs, and script names t
 
 ### 2. Training + Inference
 
-You can train COSMIC in one or both directions:
+You can train COSMIC and tun inference in one or both directions:
 
 - **seq2img**: generate nuclear images from gene expression.
 - **img2seq**: predict gene expression from nuclear images.
 
-1. **Train seq2img**
+2.1.1. **Training of seq2img**
 
    First, we need to get the features from gene expression using scVI:
 
@@ -71,7 +71,9 @@ You can train COSMIC in one or both directions:
    python ./seq2img/train_mouse.py
    ```
 
-3. **Train img2seq**
+2.1.2. **Training of seq2img**
+
+2.2. **Training + Inference of img2seq**
 
    ```bash
    python ./img2seq/mouse.py

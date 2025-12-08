@@ -109,6 +109,12 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    python ./seq2img/eval_knna.py
    ```
 
+   Besides, we can directly evaluate the generated images in the original image space by checking whether they preserve the correct cell type:
+   - **Cell type classification** on generated nuclear images:
+   ```bash
+   python ./seq2img/eval_ct_cls.py
+   ```
+
 3. **Evaluate generated gene expression**
 
    - **Per-gene Pearson correlation** between predicted and ground-truth expression across different cell types:

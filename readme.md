@@ -104,36 +104,36 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    Then, we can start evaluating:
    - **Coverage (COV)** to measure how well the generated embeddings cover the real embeddings:
    ```bash
-   python ./seq2img/eval_cov.py
+   python ./seq2img/eval_cov.py --species mouse
    ```
    - **Sliced Wasserstein Distance (SWD)** between real and generated embeddings:
    ```bash
-   python ./seq2img/eval_swd.py
+   python ./seq2img/eval_swd.py --species mouse
    ```
    - **k-Nearest-Neighbour Accuracy (k-NNA)** to assess overlap between real and generated distributions:
    ```bash
-   python ./seq2img/eval_knna.py
+   python ./seq2img/eval_knna.py --species mouse
    ```
 
    Besides, we can directly evaluate the generated images in the original image space by checking whether they preserve the correct cell type. Before running, please download the pretrained classifier `classifier_img.pt` from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link) and place it in the `./ckpt` folder. Then, you can run:
    - **Cell type classification** on generated nuclear images:
    ```bash
-   python ./seq2img/eval_ct_cls.py
+   python ./seq2img/eval_ct_cls.py --species mouse
    ```
 
 **2. Evaluate generated gene expression**
 
    - **Per-gene Pearson correlation** between predicted and ground-truth expression across different cell types:
    ```bash
-   python ./img2seq/eval_pcorr_acrossCT.py
+   python ./img2seq/eval_pcorr_acrossCT.py --species mouse
    ```
    - **Per-gene Pearson correlation** between predicted and ground-truth expression within each cell type:
    ```bash
-   python ./img2seq/eval_pcorr_withinCT.py
+   python ./img2seq/eval_pcorr_withinCT.py --species mouse
    ```
    - **Cell type classification** on generated gene expression. Before running, please download the pretrained classifier `classifier_seq.pt` from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link) and place it in the `./ckpt` folder. Then, you can run::
    ```bash
-   python ./img2seq/eval_ct_cls.py
+   python ./img2seq/eval_ct_cls.py --species mouse
    ```
 
    

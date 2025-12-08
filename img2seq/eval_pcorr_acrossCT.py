@@ -3,6 +3,8 @@ import warnings
 # Suppress all warnings (optional, for cleaner logs)
 warnings.filterwarnings("ignore")
 
+import argparse
+
 import scanpy as sc
 from scipy.stats import pearsonr, spearmanr
 import numpy as np
@@ -14,13 +16,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
 
+
 ### 0. Initialization
-### 0.1. Set device
-device = "cuda" if torch.cuda.is_available() else "cpu"
-
-
-### 1. Utilities
-### 1.1. Gene-wise correlation evaluation
+### 0.1. Gene-wise correlation evaluation
 def calculate_results(adata_subset, preds, gts):
     """
     Compute per-gene Pearson correlation between predicted and ground-truth expression.
@@ -43,7 +41,7 @@ def calculate_results(adata_subset, preds, gts):
             - 'Pearson_nonzero'
             - 'pvals_nonzero'
     """
-    # Ensure numpy arrays (pearsonr works with array-like, but this keeps it explicit)
+    # Ensure numpy arrays
     preds = np.asarray(preds)
     gts = np.asarray(gts)
 
@@ -109,46 +107,81 @@ def calculate_results(adata_subset, preds, gts):
     return results_df
 
 
-### 2. Load and preprocess data
-### 2.1. Load AnnData
-adata_seq = sc.read(
-    "/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/human_300725.h5ad"
-)
+if __name__ == "__main__":
+    ### 0.2. Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description="Per-gene correlation evaluation between predicted and ground-truth expression."
+    )
+    parser.add_argument(
+        "--species",
+        type=str,
+        choices=["mouse", "human"],
+        default="human",
+        help="Species to evaluate (mouse or human).",
+    )
+    parser.add_argument(
+        "--out_csv",
+        type=str,
+        default=None,
+        help="Optional output CSV path. If not set, defaults to '<species>.csv'.",
+    )
 
-# Library-size normalize counts per cell
-sc.pp.normalize_total(adata_seq)
+    args = parser.parse_args()
+    species = args.species
 
-# Log-transform normalized counts
-sc.pp.log1p(adata_seq)
+    # 0.3. Set device (not strictly needed here, but kept for consistency)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"Running gene-wise correlation evaluation for species = {species} on device = {device}")
 
-# Subset to every second cell (matching how predictions were produced)
-adata = adata_seq[0::2, :]
+    base_dir = "/mlbio_scratch/wen2/cross-model-gen"
 
-# Cell-type labels (not used downstream here, but kept for reference)
-labels = adata.obs["cell_type"]
-unique_labels = labels.unique()
+    ### 2. Load and preprocess data
+    ### 2.1. Load AnnData
+    adata_path = f"{base_dir}/img_dec/imagen/{species}_300725.h5ad"
+    print(f"Loading AnnData from: {adata_path}")
+    adata_seq = sc.read(adata_path)
 
-### 2.2. Load predictions and ground truth
-# Predicted gene expression from hybrid diffusion model
-output_all = torch.load(
-    "/mlbio_scratch/wen2/cross-model-gen/seq_dec_diff_latest/genes/human_0.5/"
-    "predictions/hybrid_diffusion_residual_predictions_test_human.pt"
-)["pred_genes"][0::2, :]
+    # Library-size normalize counts per cell
+    sc.pp.normalize_total(adata_seq)
 
-# Ground-truth expression matrix (AnnData.X)
-target_tensor_all = adata.X
+    # Log-transform normalized counts
+    sc.pp.log1p(adata_seq)
 
-### 3. Compute per-gene correlations and save results
-results = calculate_results(
-    adata,
-    output_all.detach().cpu(),
-    target_tensor_all
-)
+    # Subset to every second cell (matching how predictions were produced)
+    adata = adata_seq[0::2, :]
 
-# Sort genes by Pearson correlation (descending)
-results_order = results.sort_values(by=["Pearson"], ascending=False)
+    # Cell-type labels (not used downstream here, but kept for reference)
+    labels = adata.obs["cell_type"]
+    unique_labels = labels.unique()
+    print("Unique cell types:", list(unique_labels))
 
-# Save summary to CSV
-results_order.to_csv("human.csv", index=True)
+    ### 2.2. Load predictions and ground truth
+    # Predicted gene expression from hybrid diffusion model
+    pred_path = (
+        f"{base_dir}/seq_dec_diff_latest/genes/{species}_0.5/"
+        f"predictions/hybrid_diffusion_residual_predictions_test_{species}.pt"
+    )
+    print(f"Loading predictions from: {pred_path}")
+    pred_file = torch.load(pred_path, map_location="cpu")
 
-print("Evaluation complete!")
+    output_all = pred_file["pred_genes"][0::2, :]
+    target_tensor_all = adata.X
+
+    print("Pred shape:", output_all.shape)
+    print("GT   shape:", target_tensor_all.shape)
+
+    ### 3. Compute per-gene correlations and save results
+    results = calculate_results(
+        adata,
+        output_all.detach().cpu(),
+        target_tensor_all,
+    )
+
+    # Sort genes by Pearson correlation (descending)
+    results_order = results.sort_values(by=["Pearson"], ascending=False)
+
+    # Output CSV
+    out_csv = args.out_csv or f"{species}.csv"
+    results_order.to_csv(out_csv, index=True)
+
+    print(f"Evaluation complete! Results saved to: {out_csv}")

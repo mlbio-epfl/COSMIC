@@ -65,13 +65,13 @@ You can train COSMIC and run inference in one or both directions:
    python ./seq2img/scVI_mouse.py
    ```
    
-   Then, we train the diffusion model conditioned on the gene expression features:
+   2.1.2. Then, we train the diffusion model conditioned on the gene expression features:
    
    ```bash
    python ./seq2img/train_mouse.py
    ```
 
-   Finally, we run the inference to generate nuclear images:
+   2.1.3. Finally, we run the inference to generate nuclear images:
    ```bash
    python ./seq2img/inference_mouse.py
    ```

@@ -3,6 +3,8 @@ import warnings
 # Suppress all warnings (optional, for cleaner logs)
 warnings.filterwarnings("ignore")
 
+import argparse
+
 import scanpy as sc
 from scipy.stats import pearsonr
 import numpy as np
@@ -13,10 +15,6 @@ from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder
-
-### 0. Initialization
-### 0.1. Set device
-device = "cuda:1" if torch.cuda.is_available() else "cpu"
 
 
 ### 1. Utilities
@@ -72,7 +70,7 @@ def calculate_results(adata_subset, preds, gts):
             if m.sum() > 1:
                 corr_nonzero, pval_nonzero = pearsonr(
                     gts[m, idx],
-                    preds[m, idx]
+                    preds[m, idx],
                 )
                 gene_names.append(adata_subset.var.index[idx])
                 corrs.append(corr)
@@ -138,7 +136,7 @@ def calculate_results_per_batch(adata_subset, preds, gts):
         results_batch_df = calculate_results(
             adata_subset[m],
             preds[m],
-            gts[m]
+            gts[m],
         )
 
         # Rename columns to encode batch in column name, except 'genes'
@@ -157,7 +155,7 @@ def calculate_results_per_batch(adata_subset, preds, gts):
                 df_final,
                 results_batch_df,
                 on="genes",
-                suffixes=("", "")
+                suffixes=("", ""),
             )
 
     # Average Pearson scores across batches
@@ -167,65 +165,140 @@ def calculate_results_per_batch(adata_subset, preds, gts):
     return df_final
 
 
-### 2. Load and preprocess data
-### 2.1. Load AnnData
-adata_seq = sc.read(
-    "/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/mouse_300725.h5ad"
-)
-
-# Library-size normalize counts per cell
-sc.pp.normalize_total(adata_seq)
-
-# Log-transform normalized counts
-sc.pp.log1p(adata_seq)
-
-# Subset to every second cell (matching how predictions were produced)
-adata = adata_seq[0::2, :]
-
-# Cell-type labels (used for per-cell-type analysis)
-# labels = adata.obs['cell_type_subset']  # for human
-labels = adata.obs["cell_type"]
-unique_labels = labels.unique()
-
-# Batch labels (exp_id) for per-batch averaging
-labels_exp = adata.obs["exp_id"]
-unique_labels_exp = labels_exp.unique()
-
-### 2.2. Load predictions and ground truth
-output_all = torch.load(
-    "/mlbio_scratch/wen2/cross-model-gen/seq_dec/genes/"
-    "mouse_permute_within_celltype_0.5_withinbatch/"
-    "ep3_0.16849383380092917_0.16552310871581236.pt"
-)[0::2, :]
-
-target_tensor_all = adata.X
-
-
-### 3. Per-cell-type evaluation
-for cell_type in unique_labels:
-    print(cell_type)
-
-    # Mask cells belonging to the current cell type
-    mask = [label == cell_type for label in labels]
-    print(cell_type, sum(mask))
-
-    output_tmp = output_all[mask]
-    target_tensor_tmp = target_tensor_all[mask]
-    labels_exp_tmp = labels_exp[mask]
-
-    # Compute per-batch correlations and average across batches
-    results = calculate_results_per_batch(
-        adata[mask],
-        output_tmp.detach().cpu(),
-        target_tensor_tmp
+if __name__ == "__main__":
+    ### 0. CLI + Initialization
+    parser = argparse.ArgumentParser(
+        description=(
+            "Per-cell-type, per-batch gene-wise correlation evaluation for "
+            "permuted-within-cell-type baseline."
+        )
+    )
+    parser.add_argument(
+        "--species",
+        type=str,
+        choices=["mouse", "human"],
+        default="mouse",
+        help="Species to evaluate (mouse or human).",
+    )
+    parser.add_argument(
+        "--pred_path",
+        type=str,
+        default=None,
+        help=(
+            "Path to .pt file with baseline predictions. "
+            "If not provided and species=='mouse', uses the original mouse path. "
+            "For human, this argument is strongly recommended."
+        ),
+    )
+    parser.add_argument(
+        "--out_prefix",
+        type=str,
+        default=None,
+        help=(
+            "Prefix for output CSV files. "
+            "If not set, defaults to '<species>_withinCT'. "
+            "Files are written as '<prefix>_<celltype>.csv'."
+        ),
     )
 
-    # Rank genes by average Pearson correlation
-    results_order = results.sort_values(
-        by=["avg_Pearson"],
-        ascending=False
-    )
+    args = parser.parse_args()
+    species = args.species
 
-    # Note: filename is 'human_withinCT.csv' even though this is mouse data,
-    # kept for consistency with the original script.
-    results_order.to_csv("human_withinCT.csv", index=True)
+    # Device (not heavily used here, but kept for consistency)
+    device = "cuda:1" if torch.cuda.is_available() else "cpu"
+    print(f"Running within-cell-type correlation evaluation for species = {species} on device = {device}")
+
+    base_dir = "/mlbio_scratch/wen2/cross-model-gen"
+
+    ### 2. Load and preprocess data
+    ### 2.1. Load AnnData
+    adata_path = f"{base_dir}/img_dec/imagen/{species}_300725.h5ad"
+    print(f"Loading AnnData from: {adata_path}")
+    adata_seq = sc.read(adata_path)
+
+    # Library-size normalize counts per cell
+    sc.pp.normalize_total(adata_seq)
+
+    # Log-transform normalized counts
+    sc.pp.log1p(adata_seq)
+
+    # Subset to every second cell (matching how predictions were produced)
+    adata = adata_seq[0::2, :]
+
+    # Cell-type labels (may differ between species)
+    if species == "human":
+        # For human, you mentioned using 'cell_type_subset' before
+        # (change back to 'cell_type' if needed)
+        label_col = "cell_type_subset"
+        if label_col not in adata.obs.columns:
+            # Fallback if subset label is not available
+            label_col = "cell_type"
+    else:
+        label_col = "cell_type"
+
+    labels = adata.obs[label_col]
+    unique_labels = labels.unique()
+    print(f"Using cell-type column: {label_col}")
+    print("Unique cell types:", list(unique_labels))
+
+    # Batch labels (exp_id) for per-batch averaging
+    labels_exp = adata.obs["exp_id"]
+    unique_labels_exp = labels_exp.unique()
+    print("Unique exp_id:", list(unique_labels_exp))
+
+    ### 2.2. Load predictions and ground truth
+    if args.pred_path is not None:
+        pred_path = args.pred_path
+    else:
+        # Original hard-coded mouse path; only safe default for mouse.
+        if species == "mouse":
+            pred_path = (
+                f"{base_dir}/seq_dec/genes/"
+                "mouse_permute_within_celltype_0.5_withinbatch/"
+                "ep3_0.16849383380092917_0.16552310871581236.pt"
+            )
+        else:
+            raise ValueError(
+                "No --pred_path provided and default path is mouse-specific. "
+                "Please specify --pred_path for human."
+            )
+
+    print(f"Loading predictions from: {pred_path}")
+    output_all = torch.load(pred_path, map_location="cpu")[0::2, :]
+    target_tensor_all = adata.X
+
+    print("Pred shape:", output_all.shape)
+    print("GT   shape:", target_tensor_all.shape)
+
+    ### 3. Per-cell-type evaluation
+    out_prefix = args.out_prefix or f"{species}_withinCT"
+
+    for cell_type in unique_labels:
+        print(f"\n=== Cell type: {cell_type} ===")
+
+        # Mask cells belonging to the current cell type
+        mask = [label == cell_type for label in labels]
+        print(cell_type, "n =", sum(mask))
+
+        output_tmp = output_all[mask]
+        target_tensor_tmp = target_tensor_all[mask]
+        labels_exp_tmp = labels_exp[mask]
+
+        # Compute per-batch correlations and average across batches
+        results = calculate_results_per_batch(
+            adata[mask],
+            output_tmp.detach().cpu(),
+            target_tensor_tmp,
+        )
+
+        # Rank genes by average Pearson correlation
+        results_order = results.sort_values(
+            by=["avg_Pearson"],
+            ascending=False,
+        )
+
+        # Save one CSV per cell type
+        safe_ct = str(cell_type).replace(" ", "_").replace("/", "_")
+        out_csv = f"{out_prefix}_{safe_ct}.csv"
+        results_order.to_csv(out_csv, index=True)
+        print(f"Saved results for {cell_type} to: {out_csv}")

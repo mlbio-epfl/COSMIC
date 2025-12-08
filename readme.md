@@ -57,7 +57,7 @@ You can train COSMIC and run inference in one or both directions:
 - **seq2img**: generate nuclear images from gene expression.
 - **img2seq**: predict gene expression from nuclear images.
 
-2.1. **Seq2img**
+**2.1. Seq2img**
 
    2.1.1. Here, we use the mouse data as an example. First, we need to get the features from gene expression using scVI:
 
@@ -76,11 +76,13 @@ You can train COSMIC and run inference in one or both directions:
    python ./seq2img/inference_mouse.py
    ```
 
-2.2. **Img2seq**
+**2.2. Img2seq**
 
+   First, download the checkpoint of morphology FM `ckpt_morphFM.pt` [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link) and put it into `./ckpt`. Then, run
    ```bash
    python ./img2seq/mouse.py
    ```
+   After running, you will get both the model checkpoint and the predicted genes.
 
 ### 3. Evaluation
 

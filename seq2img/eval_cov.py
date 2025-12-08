@@ -1,4 +1,10 @@
+import warnings
+warnings.filterwarnings("ignore")
+
+import argparse
+
 import torch
+
 
 @torch.no_grad()
 def compute_cov(real_feats: torch.Tensor,
@@ -6,8 +12,9 @@ def compute_cov(real_feats: torch.Tensor,
     """
     Coverage (COV) of real distribution by generated samples.
 
-    real_feats: (N_real, D) tensor
-    gen_feats:  (N_gen,  D) tensor
+    Args:
+        real_feats: (N_real, D) tensor of real features.
+        gen_feats:  (N_gen,  D) tensor of generated features.
 
     Definition used here:
       1. For each generated sample, find its nearest real sample.
@@ -30,14 +37,70 @@ def compute_cov(real_feats: torch.Tensor,
 
     return float(cov)
 
+
 # ==========================
-# Example usage
+# CLI entry point
 # ==========================
 if __name__ == "__main__":
-    # Fake example: 100 real, 100 generated, 128-dim features
-    real = torch.load('feature_gt.pt').cpu()[::100]
-    gen  = torch.load('feature_gen.pt').cpu()[::100]
+    ### 0. Parse arguments
+    parser = argparse.ArgumentParser(
+        description=(
+            "Compute coverage (COV) between real and generated feature sets "
+            "for a given species."
+        )
+    )
+    parser.add_argument(
+        "--species",
+        type=str,
+        choices=["mouse", "human"],
+        default="mouse",
+        help="Species to process (mouse or human).",
+    )
+    parser.add_argument(
+        "--real_path",
+        type=str,
+        default=None,
+        help=(
+            "Optional path to real feature .pt file. "
+            "If not provided, defaults to 'feature_<species>_gt.pt'."
+        ),
+    )
+    parser.add_argument(
+        "--gen_path",
+        type=str,
+        default=None,
+        help=(
+            "Optional path to generated feature .pt file. "
+            "If not provided, defaults to 'feature_<species>_gen.pt'."
+        ),
+    )
+    parser.add_argument(
+        "--subsample",
+        type=int,
+        default=100,
+        help="Subsample step for features (default: 100, i.e. [::100]).",
+    )
+
+    args = parser.parse_args()
+    species = args.species
+
+    # Default file names follow the pattern used across the repo
+    real_path = args.real_path or f"feature_{species}_gt.pt"
+    gen_path = args.gen_path or f"feature_{species}_gen.pt"
+
+    print(f"Loading real features from: {real_path}")
+    print(f"Loading generated features from: {gen_path}")
+
+    # Fake example in original code:
+    # real = torch.load('feature_gt.pt').cpu()[::100]
+    # gen  = torch.load('feature_gen.pt').cpu()[::100]
+
+    real = torch.load(real_path).cpu()[:: args.subsample]
+    gen = torch.load(gen_path).cpu()[:: args.subsample]
+
+    print("Real feats shape:", real.shape)
+    print("Gen  feats shape:", gen.shape)
 
     cov = compute_cov(real, gen)
 
-    print("COV:", cov)
+    print(f"[{species}] COV:", cov)

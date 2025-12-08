@@ -48,7 +48,7 @@ Below is a high-level workflow. You can adapt paths, configs, and script names t
   ```text
   ./data/
   ```
-- Unzip the zip file of the nuclear images. You will get images named with `cell_id.png`.
+- Unzip the zip file of the nuclear images. You will get images named with `[cell_id].jpg` in the directory './data/images_mouse' and './data/images_human'.
 
 ### 2. Training
 

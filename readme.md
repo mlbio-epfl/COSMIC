@@ -91,11 +91,11 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
 1. **Evaluate generated nuclear images**
    - **Sliced Wasserstein Distance (SWD)** between real and generated embeddings.
    ```bash
-   python eval_swd.py
+   python ./seq2img/eval_swd.py
    ```
    - **k-NNA** to assess overlap between real and generated distributions.
    ```bash
-   python eval_knna.py
+   python ./seq2img/eval_knna.py
    ```
 
 2. **Evaluate generated gene expression**

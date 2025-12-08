@@ -1,4 +1,10 @@
+import warnings
+warnings.filterwarnings("ignore")
+
+import argparse
+
 import torch
+
 
 @torch.no_grad()
 def compute_neighbor_purity(
@@ -13,11 +19,16 @@ def compute_neighbor_purity(
       - Find top-k nearest neighbors (excluding itself), for all k<=k_max.
       - Compute fraction of neighbors that come from the *same* distribution.
 
+    Args:
+        real_feats: (N_real, D) tensor of real features.
+        gen_feats:  (N_gen,  D) tensor of generated features.
+        k_max:      maximum neighborhood size to consider.
+
     Returns:
-      purity_per_k: (k_max,) tensor where purity_per_k[k-1] =
-                    mean over points of (# same-label neighbors in top-k) / k
-      purity_per_point_at_kmax: (N_total,) tensor of per-point fractions
-                                at k = k_max.
+        purity_per_k: (k_max,) tensor where purity_per_k[k-1] =
+                      mean over points of (# same-label neighbors in top-k) / k
+        purity_per_point_at_kmax: (N_total,) tensor of per-point fractions
+                                  at k = k_max.
     """
     assert real_feats.dim() == 2 and gen_feats.dim() == 2
     assert real_feats.size(1) == gen_feats.size(1)
@@ -68,14 +79,75 @@ def compute_neighbor_purity(
 
 
 # ==========================
-# Example usage
+# CLI entry point
 # ==========================
 if __name__ == "__main__":
 
-    real = torch.load('feature_gt.pt').cpu()[::2]
-    gen  = torch.load('feature_gen.pt').cpu()[::2]
+    parser = argparse.ArgumentParser(
+        description=(
+            "Compute k-NNA / neighborhood purity between real and generated "
+            "feature sets for a given species."
+        )
+    )
+    parser.add_argument(
+        "--species",
+        type=str,
+        choices=["mouse", "human"],
+        default="mouse",
+        help="Species to process (mouse or human).",
+    )
+    parser.add_argument(
+        "--real_path",
+        type=str,
+        default=None,
+        help=(
+            "Optional path to real feature .pt file. "
+            "If not provided, defaults to 'feature_<species>_gt.pt'."
+        ),
+    )
+    parser.add_argument(
+        "--gen_path",
+        type=str,
+        default=None,
+        help=(
+            "Optional path to generated feature .pt file. "
+            "If not provided, defaults to 'feature_<species>_gen.pt'."
+        ),
+    )
+    parser.add_argument(
+        "--subsample",
+        type=int,
+        default=20,
+        help="Subsample step for features (default: 20, i.e. [::20]).",
+    )
+    parser.add_argument(
+        "--k_max",
+        type=int,
+        default=100,
+        help="Maximum neighborhood size k_max.",
+    )
 
-    k_max = 100
+    args = parser.parse_args()
+    species = args.species
+
+    # Default paths follow the same pattern as the COV script
+    real_path = args.real_path or f"feature_{species}_gt.pt"
+    gen_path = args.gen_path or f"feature_{species}_gen.pt"
+
+    print(f"[{species}] Loading real features from: {real_path}")
+    print(f"[{species}] Loading generated features from: {gen_path}")
+
+    # Original example:
+    # real = torch.load('feature_gt.pt').cpu()[::20]
+    # gen  = torch.load('feature_gen.pt').cpu()[::20]
+
+    real = torch.load(real_path).cpu()[:: args.subsample]
+    gen = torch.load(gen_path).cpu()[:: args.subsample]
+
+    print("Real feats shape:", real.shape)
+    print("Gen  feats shape:", gen.shape)
+
+    k_max = args.k_max
     purity_per_k, purity_kmax_pointwise = compute_neighbor_purity(real, gen, k_max=k_max)
 
-    print(f"K-NNA: {purity_per_k[k_max-1].item():.3f}")
+    print(f"[{species}] K-NNA (k={k_max}): {purity_per_k[k_max - 1].item():.3f}")

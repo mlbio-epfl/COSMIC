@@ -88,16 +88,10 @@ You can train COSMIC and run inference in one or both directions:
 
 Once models are trained, you can evaluate fidelity, diversity, and cross-modal consistency.
 
-1. **Generate samples**
+1. **Evaluate generated nuclear images**
 
-   - For seq2img: generate nuclear images from held-out gene expression profiles.
-   - For img2seq: predict gene expression for held-out images.
 
-   ```bash
-   python inference_mouse.py
-   ```
-
-2. **Compute quantitative metrics**
+2. **Evaluate generated gene expression**
 
    - **Per-gene Pearson correlation** between predicted and ground-truth expression.
    - **Sliced Wasserstein Distance (SWD)** between real and generated embeddings.

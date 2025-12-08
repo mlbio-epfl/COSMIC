@@ -91,10 +91,6 @@ if __name__ == "__main__":
     print(f"Loading real features from: {real_path}")
     print(f"Loading generated features from: {gen_path}")
 
-    # Fake example in original code:
-    # real = torch.load('feature_gt.pt').cpu()[::100]
-    # gen  = torch.load('feature_gen.pt').cpu()[::100]
-
     real = torch.load(real_path).cpu()[:: args.subsample]
     gen = torch.load(gen_path).cpu()[:: args.subsample]
 

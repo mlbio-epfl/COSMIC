@@ -73,7 +73,7 @@ You can train COSMIC and run inference in one or both directions:
    python ./seq2img/train_mouse.py
    ```
 
-   During training, you can keep checking the intermediate results in `./seq2img/result/mouse`. After training, you will have a checkpoint `seq2img_mouse.pt` in `./seq2img/ckpt`
+   During training, you can keep checking the intermediate results in `./seq2img/result/mouse`. After training, you will have a checkpoint `seq2img_mouse.pt` in `./seq2img/ckpt`. If you want to skip this step, you can download the checkpoints directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
 
    2.1.3. Finally, you can run the inference to generate nuclear images:
    ```bash

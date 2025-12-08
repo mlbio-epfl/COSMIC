@@ -115,7 +115,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    python ./seq2img/eval_knna.py
    ```
 
-   Besides, we can directly evaluate the generated images in the original image space by checking whether they preserve the correct cell type. Before running, please download the pretrained classifier `classifier_img.pt` from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link) and put it into the folder `./ckpt`. Then, you can run:
+   Besides, we can directly evaluate the generated images in the original image space by checking whether they preserve the correct cell type. Before running, please download the pretrained classifier `classifier_img.pt` from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link) and place it in the `./ckpt` folder. Then, you can run:
    - **Cell type classification** on generated nuclear images:
    ```bash
    python ./seq2img/eval_ct_cls.py
@@ -131,7 +131,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    ```bash
    python ./img2seq/eval_pcorr_withinCT.py
    ```
-   - **Cell type classification** on generated gene expression:
+   - **Cell type classification** on generated gene expression. Before running, please download the pretrained classifier `classifier_seq.pt` from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link) and place it in the `./ckpt` folder. Then, you can run::
    ```bash
    python ./img2seq/eval_ct_cls.py
    ```

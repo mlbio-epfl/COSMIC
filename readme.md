@@ -89,11 +89,15 @@ You can train COSMIC and run inference in one or both directions:
 Once models are trained, you can evaluate fidelity, diversity, and cross-modal consistency.
 
 1. **Evaluate generated nuclear images**
-   - **Sliced Wasserstein Distance (SWD)** between real and generated embeddings.
+   - **Coverage (COV)** to measure how well the generated embeddings cover the real embeddings:
+   ```bash
+   python ./seq2img/eval_cov.py
+   ```
+   - **Sliced Wasserstein Distance (SWD)** between real and generated embeddings:
    ```bash
    python ./seq2img/eval_swd.py
    ```
-   - **k-NNA** to assess overlap between real and generated distributions.
+   - **k-Nearest-Neighbour Accuracy (k-NNA)** to assess overlap between real and generated distributions:
    ```bash
    python ./seq2img/eval_knna.py
    ```

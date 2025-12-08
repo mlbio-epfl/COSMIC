@@ -89,6 +89,12 @@ You can train COSMIC and run inference in one or both directions:
 Once models are trained, you can evaluate fidelity, diversity, and cross-modal consistency.
 
 1. **Evaluate generated nuclear images**
+   First, we evaluate the generated images in our morphology FM embedding space. Thus, let's first get the embedding:
+   ```bash
+   python ./seq2img/get_embedding.py
+   ```
+   
+   Then, we can start evaluating:
    - **Coverage (COV)** to measure how well the generated embeddings cover the real embeddings:
    ```bash
    python ./seq2img/eval_cov.py
@@ -102,7 +108,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    python ./seq2img/eval_knna.py
    ```
 
-2. **Evaluate generated gene expression**
+3. **Evaluate generated gene expression**
 
    - **Per-gene Pearson correlation** between predicted and ground-truth expression.
    

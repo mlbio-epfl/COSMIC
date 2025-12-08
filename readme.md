@@ -99,7 +99,7 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    ```bash
    python ./seq2img/get_embedding.py
    ```
-   After running this, you will get `feature_mouse_morphFM.pt` in `./seq2img/feature`. If you want to skip this step, you can download the features directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
+   After running this, you will get `feature_mouse_gen_morphFM.pt` in `./seq2img/feature`. If you want to skip this step, you can download the features directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link). Please also download the features of the ground truth images `feature_mouse_gt_morphFM.pt` from the same place.
    
    Then, we can start evaluating:
    - **Coverage (COV)** to measure how well the generated embeddings cover the real embeddings:

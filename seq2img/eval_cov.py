@@ -62,7 +62,7 @@ if __name__ == "__main__":
         default=None,
         help=(
             "Optional path to real feature .pt file. "
-            "If not provided, defaults to 'feature_<species>_gt.pt'."
+            "If not provided, defaults to 'feature_<species>_gt_morphFM.pt'."
         ),
     )
     parser.add_argument(
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         default=None,
         help=(
             "Optional path to generated feature .pt file. "
-            "If not provided, defaults to 'feature_<species>_gen.pt'."
+            "If not provided, defaults to 'feature_<species>_gen_morphFM.pt'."
         ),
     )
     parser.add_argument(
@@ -85,8 +85,8 @@ if __name__ == "__main__":
     species = args.species
 
     # Default file names follow the pattern used across the repo
-    real_path = args.real_path or f"./seq2img/feature/feature_{species}_gt.pt"
-    gen_path = args.gen_path or f"./seq2img/feature/feature_{species}_gen.pt"
+    real_path = args.real_path or f"./seq2img/feature/feature_{species}_gt_morphFM.pt"
+    gen_path = args.gen_path or f"./seq2img/feature/feature_{species}_gen_morphFM.pt"
 
     print(f"Loading real features from: {real_path}")
     print(f"Loading generated features from: {gen_path}")

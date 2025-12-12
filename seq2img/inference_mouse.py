@@ -41,17 +41,17 @@ class CustomImageDataset(Dataset):
     """
     Dataset that returns (cell_id, feature) pairs for single cells (mouse).
 
-    - Loads precomputed latent features from 'f_mouse_300725.pt'
-    - Loads cell metadata (including cell_id) from 'mouse_300725.h5ad'
+    - Loads precomputed latent features from 'feature_mouse_scvi.pt'
+    - Loads cell metadata (including cell_id) from 'IRIS_mouse.h5ad'
     - Used for conditional image generation (seq2img), not for training
     """
 
     def __init__(self, ):
         # Precomputed feature tensor of shape [n_cells, feature_dim]
-        self.feature = torch.load('f_mouse_300725.pt')
+        self.feature = torch.load('./seq2img/feature/feature_mouse_scvi.pt')
 
         # AnnData with per-cell metadata, including cell_id
-        adata_seq = sc.read('mouse_300725.h5ad')
+        adata_seq = sc.read('./data/IRIS_mouse.h5ad')
 
         # Store cell IDs (used for naming output images)
         self.cell_id = adata_seq.obs['cell_id']
@@ -115,7 +115,7 @@ dataloader = DataLoader(dataset, batch_size=bs, shuffle=False)
 ### 3. Generate images from sequence features (seq2img)
 # Output images are saved to: /mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/mouse_config0/
 os.makedirs(
-    '/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/mouse_config0/',
+    './seq2img/inference/mouse',
     exist_ok=True
 )
 
@@ -150,5 +150,5 @@ with torch.no_grad():
 
             # Use cell_id as filename to align generated images with cells
             image.save(
-                f'/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/mouse_config0/{idx_tmp}.png'
+                f'./seq2img/inference/mouse/{idx_tmp}.png'
             )

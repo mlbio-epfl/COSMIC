@@ -74,11 +74,11 @@ class MLP(nn.Module):
 ### 1. Load data
 ### 1.1. Load AnnData and cell-type labels
 if species == "human":
-    adata = sc.read("/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/human_300725.h5ad")
+    adata = sc.read("./data/IRIS_human.h5ad")
     # Merge CD8+ into PBMC for this analysis
     adata.obs.loc[adata.obs["cell_type"] == "CD8+", "cell_type"] = "PBMC"
 elif species == "mouse":
-    adata = sc.read("/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/mouse_300725.h5ad")
+    adata = sc.read("./data/IRIS_mouse.h5ad")
 else:
     raise ValueError(f"Unsupported species: {species}")
 
@@ -98,8 +98,7 @@ print("Classes:", classes)
 #   - "gt_genes":   [n_cells, n_genes]
 #   - "pred_genes": [n_cells, n_genes]
 pred_path = (
-    f"/mlbio_scratch/wen2/cross-model-gen/seq_dec_diff_latest/genes/"
-    f"{species}_0.5/predictions/hybrid_diffusion_residual_predictions_test_{species}.pt"
+    f"./img2seq/inference/img2seq_{species}.pt"
 )
 predictions = torch.load(pred_path, map_location="cpu")
 gene_exp_gt = predictions["gt_genes"]

@@ -85,8 +85,8 @@ if __name__ == "__main__":
     species = args.species
 
     # Default file names follow the pattern used across the repo
-    real_path = args.real_path or f"feature_{species}_gt.pt"
-    gen_path = args.gen_path or f"feature_{species}_gen.pt"
+    real_path = args.real_path or f"./seq2img/feature/feature_{species}_gt.pt"
+    gen_path = args.gen_path or f"./seq2img/feature/feature_{species}_gen.pt"
 
     print(f"Loading real features from: {real_path}")
     print(f"Loading generated features from: {gen_path}")

@@ -48,10 +48,10 @@ class CustomImageDataset(Dataset):
 
     def __init__(self, ):
         # Precomputed feature tensor of shape [n_cells, feature_dim]
-        self.feature = torch.load('feature_human.pt')
+        self.feature = torch.load('./seq2img/feature/feature_human_scvi.pt')
 
         # AnnData with per-cell metadata, including cell_id
-        adata_seq = sc.read('IRIS_human.h5ad')
+        adata_seq = sc.read('./data/IRIS_human.h5ad')
 
         # Store cell IDs (used for naming output images)
         self.cell_id = adata_seq.obs['cell_id']
@@ -100,7 +100,7 @@ imagen = Imagen(
 
 ### 1.3. Load pretrained weights from checkpoint
 checkpoint = torch.load(
-    '/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/ckpt/human_config1/259000.pt',
+    './ckpt/seq2img_human.pt',
     map_location=device
 )
 imagen.load_state_dict(checkpoint, strict=True)
@@ -113,9 +113,9 @@ dataloader = DataLoader(dataset, batch_size=bs, shuffle=False)
 
 
 ### 3. Generate images from sequence features (seq2img)
-# Output images are saved to: /mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/human_config1/
+# Output images are saved to: ./seq2img/inference/human
 os.makedirs(
-    '/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/human_config1/',
+    './seq2img/inference/human',
     exist_ok=True
 )
 
@@ -150,5 +150,5 @@ with torch.no_grad():
 
             # Use cell_id as filename to align generated images with cells
             image.save(
-                f'/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/human_config1/{idx_tmp}.png'
+                f'./seq2img/inference/human/{idx_tmp}.png'
             )

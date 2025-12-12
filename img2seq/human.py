@@ -27,9 +27,9 @@ log_path = "training_loss_human.txt"
 # =========================
 # Paths
 # =========================
-MAE_PRETRAIN_PATH = './ckpt/mae_scimg_withoutIRIS_ep400.pt'
-mse_ckpt_path = './ckpt/mse_baseline_human.pt'          # baseline-only checkpoint (encoder+regressor)
-hybrid_ckpt_path = './ckpt/hybrid_full_model_human.pt'             # full unified model checkpoint
+MAE_PRETRAIN_PATH = './ckpt/ckpt_morphFM.pt'
+mse_ckpt_path = './ckpt/mse_human.pt'          # baseline-only checkpoint (encoder+regressor)
+hybrid_ckpt_path = './ckpt/full_model_human.pt'             # full unified model checkpoint
 
 os.makedirs('./ckpt', exist_ok=True)
 os.makedirs(os.path.dirname(hybrid_ckpt_path), exist_ok=True)

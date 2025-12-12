@@ -50,8 +50,8 @@ if __name__ == "__main__":
     species = args.species
 
     # Default paths follow the same convention as other metrics
-    real_path = args.real_path or f"feature_{species}_gt.pt"
-    gen_path = args.gen_path or f"feature_{species}_gen.pt"
+    real_path = args.real_path or f"./seq2img/feature/feature_{species}_gt.pt"
+    gen_path = args.gen_path or f"./seq2img/feature/feature_{species}_gen.pt"
 
     print(f"[{species}] Loading real features from: {real_path}")
     print(f"[{species}] Loading generated features from: {gen_path}")

@@ -66,4 +66,4 @@ vae.train(max_epochs=50)
 feature_seq = torch.from_numpy(vae.get_latent_representation())
 
 # Save latent features to disk for downstream models (e.g., Imagen conditioning)
-torch.save(feature_seq, './data/feature_human.pt')
+torch.save(feature_seq, './data/feature_human_scvi.pt')

@@ -67,7 +67,7 @@ parser.add_argument(
 parser.add_argument(
     "--ckpt_dir",
     type=str,
-    default="./ckpt/image_classifier",
+    default="./ckpt",
     help="Directory to save model checkpoints.",
 )
 
@@ -91,21 +91,21 @@ print(f"Running IMAGE classifier evaluation (SimpleCNN) for species = {species} 
 
 ### 0.4. Paths
 # Ground-truth images: f'/mlbio_scratch/.../images_{species}/{cell_id}.jpg'
-gt_image_dir = f"/mlbio_scratch/wen2/cross-model-gen/github/seq2img/data/images_{species}"
+gt_image_dir = f"./data/images_{species}"
 
 # Generated images: cell_id.png in config-specific folders
 if species == "human":
-    gen_image_dir = "/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/human_config1"
+    gen_image_dir = "./seq2img/result/human"
 elif species == "mouse":
-    gen_image_dir = "/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/test/mouse_config0"
+    gen_image_dir = "./seq2img/result/mouse"
 else:
     raise ValueError(f"Unsupported species: {species}")
 
 # AnnData with labels
 if species == "human":
-    adata_path = "/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/human_300725.h5ad"
+    adata_path = "./data/IRIS_human.h5ad"
 else:
-    adata_path = "/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/mouse_300725.h5ad"
+    adata_path = "./data/IRIS_mouse.h5ad"
 
 
 ### 0.5. Simple CNN backbone

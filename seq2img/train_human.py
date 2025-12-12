@@ -39,7 +39,7 @@ class CustomImageDataset(Dataset):
 
     def __init__(self, ):
         # Precomputed feature tensor of shape [n_cells, feature_dim]
-        self.feature = torch.load('./data/feature_human.pt')
+        self.feature = torch.load('./data/feature_human_scvi.pt')
 
         # AnnData with per-cell metadata, including cell_id
         adata_seq = sc.read('./data/IRIS_human.h5ad')
@@ -144,13 +144,13 @@ for epoch in range(100):
             # Save first generated image in batch
             tensor = (images[0].permute(1, 2, 0) * 255).clamp(0, 255).to(torch.uint8).cpu().numpy()
             image = Image.fromarray(tensor)
-            image.save(f'./result/human/{iters}_test.png')
+            image.save(f'./seq2img/result/human/{iters}_test.png')
 
             # Save corresponding ground truth image for visual comparison
             tensor = (img[0].permute(1, 2, 0) * 255).clamp(0, 255).to(torch.uint8).cpu().numpy()
             image = Image.fromarray(tensor)
-            image.save(f'./result/human/{iters}_gt.png')
+            image.save(f'./seq2img/result/human/{iters}_gt.png')
 
         # Periodically checkpoint model weights
         if iters % 1000 == 0:
-            torch.save(imagen.state_dict(), f'./ckpt/human/{iters}.pt')
+            torch.save(imagen.state_dict(), f'./ckpt/seq2img_human.pt')

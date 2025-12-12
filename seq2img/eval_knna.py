@@ -138,8 +138,8 @@ if __name__ == "__main__":
     print(f"[{species}] Loading generated features from: {gen_path}")
 
     # Original example:
-    # real = torch.load('feature_gt.pt').cpu()[::20]
-    # gen  = torch.load('feature_gen.pt').cpu()[::20]
+    # real = torch.load('./seq2img/feature/feature_gt.pt').cpu()[::20]
+    # gen  = torch.load('./seq2img/feature/feature_gen.pt').cpu()[::20]
 
     real = torch.load(real_path).cpu()[:: args.subsample]
     gen = torch.load(gen_path).cpu()[:: args.subsample]

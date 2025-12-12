@@ -133,11 +133,9 @@ if __name__ == "__main__":
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Running gene-wise correlation evaluation for species = {species} on device = {device}")
 
-    base_dir = "/mlbio_scratch/wen2/cross-model-gen"
-
     ### 2. Load and preprocess data
     ### 2.1. Load AnnData
-    adata_path = f"{base_dir}/img_dec/imagen/{species}_300725.h5ad"
+    adata_path = f"./data/IRIS_{species}.h5ad"
     print(f"Loading AnnData from: {adata_path}")
     adata_seq = sc.read(adata_path)
 
@@ -158,8 +156,7 @@ if __name__ == "__main__":
     ### 2.2. Load predictions and ground truth
     # Predicted gene expression from hybrid diffusion model
     pred_path = (
-        f"{base_dir}/seq_dec_diff_latest/genes/{species}_0.5/"
-        f"predictions/hybrid_diffusion_residual_predictions_test_{species}.pt"
+        f"./img2seq/inference/img2seq_{species}.pt"
     )
     print(f"Loading predictions from: {pred_path}")
     pred_file = torch.load(pred_path, map_location="cpu")

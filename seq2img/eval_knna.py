@@ -102,7 +102,7 @@ if __name__ == "__main__":
         default=None,
         help=(
             "Optional path to real feature .pt file. "
-            "If not provided, defaults to 'feature_<species>_gt.pt'."
+            "If not provided, defaults to 'feature_<species>_gt_morphFM.pt'."
         ),
     )
     parser.add_argument(
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         default=None,
         help=(
             "Optional path to generated feature .pt file. "
-            "If not provided, defaults to 'feature_<species>_gen.pt'."
+            "If not provided, defaults to 'feature_<species>_gen_morphFM.pt'."
         ),
     )
     parser.add_argument(
@@ -131,15 +131,11 @@ if __name__ == "__main__":
     species = args.species
 
     # Default paths follow the same pattern as the COV script
-    real_path = args.real_path or f"feature_{species}_gt.pt"
-    gen_path = args.gen_path or f"feature_{species}_gen.pt"
+    real_path = args.real_path or f"feature_{species}_gt_morphFM.pt"
+    gen_path = args.gen_path or f"feature_{species}_gen_morphFM.pt"
 
     print(f"[{species}] Loading real features from: {real_path}")
     print(f"[{species}] Loading generated features from: {gen_path}")
-
-    # Original example:
-    # real = torch.load('./seq2img/feature/feature_gt.pt').cpu()[::20]
-    # gen  = torch.load('./seq2img/feature/feature_gen.pt').cpu()[::20]
 
     real = torch.load(real_path).cpu()[:: args.subsample]
     gen = torch.load(gen_path).cpu()[:: args.subsample]

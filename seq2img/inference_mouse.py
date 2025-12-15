@@ -100,7 +100,7 @@ imagen = Imagen(
 
 ### 1.3. Load pretrained weights from checkpoint
 checkpoint = torch.load(
-    '/mlbio_scratch/wen2/cross-model-gen/img_dec/imagen/ckpt/mouse_config0/267000.pt',
+    './seq2img/ckpt/seq2img_mouse.pt',
     map_location=device
 )
 imagen.load_state_dict(checkpoint, strict=True)

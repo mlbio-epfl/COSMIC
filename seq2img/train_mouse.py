@@ -121,7 +121,7 @@ dataloader = DataLoader(dataset, batch_size=16, shuffle=True)
 
 ### 2. Training loop
 os.makedirs("./seq2img/result/mouse", exist_ok=True)
-os.makedirs("./ckpt", exist_ok=True)
+os.makedirs("./seq2img/ckpt", exist_ok=True)
 
 iters = -1
 for epoch in range(100):

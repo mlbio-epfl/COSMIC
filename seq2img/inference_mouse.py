@@ -92,7 +92,7 @@ unet1 = Unet(
 imagen = Imagen(
     unets=(unet1),           # a single Unet used as base generator
     image_sizes=(256),       # target image size (H = W = 256)
-    timesteps=1000,          # number of diffusion time steps
+    timesteps=100,          # number of diffusion time steps
     cond_drop_prob=0.1,      # probability of dropping condition during training (classifier-free guidance)
     pred_objectives='x_start',  # predict clean image x_0 instead of noise
     text_embed_dim=64        # dimension of conditioning embeddings (must match cond_dim)

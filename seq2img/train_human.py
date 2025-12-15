@@ -39,7 +39,7 @@ class CustomImageDataset(Dataset):
 
     def __init__(self, ):
         # Precomputed feature tensor of shape [n_cells, feature_dim]
-        self.feature = torch.load('./data/feature_human_scvi.pt')
+        self.feature = torch.load('./seq2img/feature/feature_human_scvi.pt')
 
         # AnnData with per-cell metadata, including cell_id
         adata_seq = sc.read('./data/IRIS_human.h5ad')
@@ -114,6 +114,9 @@ dataset = CustomImageDataset()
 dataloader = DataLoader(dataset, batch_size=16, shuffle=True)
 
 ### 2. Training loop
+os.makedirs("./seq2img/result/human", exist_ok=True)
+os.makedirs("./ckpt", exist_ok=True)
+
 iters = -1
 for epoch in range(100):
     for img, z in dataloader:

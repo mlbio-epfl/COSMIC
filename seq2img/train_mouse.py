@@ -40,7 +40,7 @@ class CustomImageDataset(Dataset):
 
     def __init__(self, ):
         # Precomputed feature tensor of shape [n_cells, feature_dim]
-        self.feature = torch.load('./data/feature_mouse_scvi.pt')
+        self.feature = torch.load('./seq2img/feature/feature_mouse_scvi.pt')
 
         # AnnData with per-cell metadata, including cell_id
         adata_seq = sc.read('./data/IRIS_mouse.h5ad')
@@ -120,7 +120,8 @@ dataset = CustomImageDataset()
 dataloader = DataLoader(dataset, batch_size=16, shuffle=True)
 
 ### 2. Training loop
-latent_dim = 256  # kept for clarity; not directly used below
+os.makedirs("./seq2img/result/mouse", exist_ok=True)
+os.makedirs("./ckpt", exist_ok=True)
 
 iters = -1
 for epoch in range(100):

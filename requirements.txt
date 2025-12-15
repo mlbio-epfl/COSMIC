@@ -1,0 +1,14 @@
+imagen_pytorch
+lightly
+matplotlib
+numpy
+ot
+pandas
+Pillow
+scanpy
+scikit-learn
+scipy
+scvi
+timm
+torch
+torchvision

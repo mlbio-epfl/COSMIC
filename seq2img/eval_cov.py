@@ -77,7 +77,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--subsample",
         type=int,
-        default=100,
+        default=10,
         help="Subsample step for features (default: 100, i.e. [::100]).",
     )
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
     print(f"Loading generated features from: {gen_path}")
 
     real = torch.load(real_path).cpu()[:: args.subsample]
-    gen = torch.load(gen_path).cpu()[:: args.subsample]
+    gen = torch.load(gen_path).cpu()
 
     print("Real feats shape:", real.shape)
     print("Gen  feats shape:", gen.shape)

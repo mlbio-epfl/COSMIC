@@ -49,6 +49,7 @@ device = torch.device(device_str)
 
 ### 0.3. Paths and filenames
 DATA_DIR = "./data"
+IMG_DIR = "./seq2img/inference"
 FEATURE_ROOT = "./seq2img/feature"
 os.makedirs(FEATURE_ROOT, exist_ok=True)
 
@@ -58,8 +59,8 @@ adata_paths = {
 }
 
 image_dirs = {
-    "mouse": os.path.join(DATA_DIR, "images_mouse"),
-    "human": os.path.join(DATA_DIR, "images_human"),
+    "mouse": os.path.join(DATA_DIR, "mouse"),
+    "human": os.path.join(DATA_DIR, "human"),
 }
 
 adata_path = adata_paths[species]
@@ -67,7 +68,7 @@ image_dir = image_dirs[species]
 ckpt_path = "./ckpt/ckpt_morphFM.pt"
 
 # Final output file, e.g. './seq2img/feature/feature_mouse_morphFM.pt'
-feature_out_path = os.path.join(FEATURE_ROOT, f"feature_{species}_morphFM.pt")
+feature_out_path = os.path.join(FEATURE_ROOT, f"feature_{species}_gen_morphFM.pt")
 
 
 ### 1. MAE model definition

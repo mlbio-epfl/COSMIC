@@ -540,7 +540,7 @@ if RUN_TEST:
     model.load_state_dict(torch.load(hybrid_ckpt_path, map_location=device))
     model.eval()
 
-    out_dir = './genes/mouse_0.5/predictions'
+    out_dir = './img2seq/inference'
     os.makedirs(out_dir, exist_ok=True)
     cell_ids = list(dataset_test.cell_id)
 
@@ -564,7 +564,7 @@ if RUN_TEST:
     pred_genes_mse = torch.cat(all_preds_mse, dim=0)  # [N_test, GENE_DIM]
     gt_genes_mse = torch.cat(all_gt_mse, dim=0)
 
-    mse_out_path = os.path.join(out_dir, 'mse_baseline_predictions_test.pt')
+    mse_out_path = os.path.join(out_dir, 'img2seq_mouse.pt')
     torch.save(
         {
             "pred_genes": pred_genes_mse,

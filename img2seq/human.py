@@ -540,7 +540,7 @@ if RUN_TEST:
     model.load_state_dict(torch.load(hybrid_ckpt_path, map_location=device))
     model.eval()
 
-    out_dir = './genes/human_0.5/predictions'
+    out_dir = './img2seq/inference'
     os.makedirs(out_dir, exist_ok=True)
     cell_ids = list(dataset_test.cell_id)
 
@@ -602,7 +602,7 @@ if RUN_TEST:
     uncert_genes_hybrid = torch.cat(all_uncert_hybrid, dim=0)   # [N_test, GENE_DIM]
     gt_genes_hybrid = torch.cat(all_gt_hybrid, dim=0)
 
-    hybrid_out_path = os.path.join(out_dir, 'hybrid_diffusion_residual_predictions_test_human.pt')
+    hybrid_out_path = os.path.join(out_dir, 'img2seq_human.pt')
     torch.save(
         {
             "pred_genes": pred_genes_hybrid,

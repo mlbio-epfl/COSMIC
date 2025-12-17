@@ -139,12 +139,6 @@ if __name__ == "__main__":
     print(f"Loading AnnData from: {adata_path}")
     adata_seq = sc.read(adata_path)
 
-    # Library-size normalize counts per cell
-    sc.pp.normalize_total(adata_seq)
-
-    # Log-transform normalized counts
-    sc.pp.log1p(adata_seq)
-
     # Subset to every second cell (matching how predictions were produced)
     adata = adata_seq[0::2, :]
 
@@ -162,7 +156,7 @@ if __name__ == "__main__":
     pred_file = torch.load(pred_path, map_location="cpu")
 
     output_all = pred_file["pred_genes"][0::2, :]
-    target_tensor_all = adata.X
+    target_tensor_all = pred_file["gt_genes"][0::2, :]
 
     print("Pred shape:", output_all.shape)
     print("GT   shape:", target_tensor_all.shape)

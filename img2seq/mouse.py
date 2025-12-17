@@ -28,8 +28,8 @@ log_path = "training_loss.txt"
 # Paths
 # =========================
 MAE_PRETRAIN_PATH = './ckpt/ckpt_morphFM.pt'
-mse_ckpt_path = './ckpt/mse_mouse.pt'          # baseline-only checkpoint (encoder+regressor)
-hybrid_ckpt_path = './ckpt/full_model_mouse.pt'             # full unified model checkpoint
+mse_ckpt_path = './img2seq/inference/mse_mouse.pt'          # baseline-only checkpoint (encoder+regressor)
+hybrid_ckpt_path = './img2seq/inference/img2seq_mouse.pt'             # full unified model checkpoint
 
 os.makedirs('./ckpt', exist_ok=True)
 os.makedirs(os.path.dirname(hybrid_ckpt_path), exist_ok=True)

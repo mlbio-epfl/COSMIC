@@ -95,9 +95,9 @@ gt_image_dir = f"./data/images_{species}"
 
 # Generated images: cell_id.png in config-specific folders
 if species == "human":
-    gen_image_dir = "./seq2img/result/human"
+    gen_image_dir = "./seq2img/inference/human"
 elif species == "mouse":
-    gen_image_dir = "./seq2img/result/mouse"
+    gen_image_dir = "./seq2img/inference/mouse"
 else:
     raise ValueError(f"Unsupported species: {species}")
 

@@ -131,8 +131,8 @@ if __name__ == "__main__":
     species = args.species
 
     # Default paths follow the same pattern as the COV script
-    real_path = args.real_path or f"feature_{species}_gt_morphFM.pt"
-    gen_path = args.gen_path or f"feature_{species}_gen_morphFM.pt"
+    real_path = args.real_path or f"./seq2img/feature/feature_{species}_gt_morphFM.pt"
+    gen_path = args.gen_path or f"./seq2img/feature/feature_{species}_gen_morphFM.pt"
 
     print(f"[{species}] Loading real features from: {real_path}")
     print(f"[{species}] Loading generated features from: {gen_path}")

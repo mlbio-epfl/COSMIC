@@ -30,7 +30,11 @@ COSMIC is a bidirectional generative framework that links single-cell morphology
 3. **Install dependencies**
 
   ```bash
-  pip install -r requirements.txt
+  pip install imagen-pytorch
+  pip install scanpy
+  pip install scvi-tools
+  pip install "lightly[timm]"
+  pip install POT
   ```
 
 ---

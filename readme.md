@@ -4,8 +4,6 @@ This repository contains the official code for **COSMIC**, a bidirectional gener
 
 Data is available [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
 
-This is currently only a template and will be finished soon.
-
 ---
 
 ## Overview

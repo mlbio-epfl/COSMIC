@@ -47,7 +47,7 @@ def set_seed(seed=42):
 
 set_seed(42)
 
-device = "cuda:5" if torch.cuda.is_available() else "cpu"
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 GENE_DIM = 14454
 

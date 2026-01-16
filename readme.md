@@ -13,6 +13,8 @@ COSMIC is a bidirectional generative framework that links single-cell morphology
 
 ## Installation
 
+Estimated installation time: around 5 minutes.
+
 1. **Clone the repository**
    ```bash
    git clone https://github.com/mlbio-epfl/COSMIC.git
@@ -75,7 +77,7 @@ You can train COSMIC and run inference in one or both directions:
    python ./seq2img/train_mouse.py
    ```
 
-   During training, you can keep checking the intermediate results in `./seq2img/result/mouse`. After training, you will have a checkpoint `seq2img_mouse.pt` in `./seq2img/ckpt`. If you want to skip this step, you can download the checkpoints directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
+   During training, you can keep checking the intermediate results in `./seq2img/result/mouse`. The full training takes around 36 hours on a single GPU with 24 GB. After training, you will have a checkpoint `seq2img_mouse.pt` in `./seq2img/ckpt`. If you want to skip this step, you can download the checkpoints directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link).
 
    **2.1.3.** Finally, you can run the inference to generate nuclear images:
    ```bash
@@ -104,35 +106,35 @@ Once models are trained, you can evaluate fidelity, diversity, and cross-modal c
    After running this, you will get `feature_mouse_gen_morphFM.pt` in `./seq2img/feature`. If you want to skip this step, you can download the features directly from [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link). Please also download the features of the ground truth images `feature_mouse_gt_morphFM.pt` from the same place.
    
    Then, we can start evaluating:
-   - **Coverage (COV)** to measure how well the generated embeddings cover the real embeddings:
+   - **Coverage (COV)** to measure how well the generated embeddings cover the real embeddings (the higher the better):
    ```bash
    python ./seq2img/eval_cov.py --species mouse
    ```
-   - **Sliced Wasserstein Distance (SWD)** between real and generated embeddings:
+   - **Sliced Wasserstein Distance (SWD)** between real and generated embeddings (the lower the better):
    ```bash
    python ./seq2img/eval_swd.py --species mouse
    ```
-   - **k-Nearest-Neighbour Accuracy (k-NNA)** to assess overlap between real and generated distributions:
+   - **k-Nearest-Neighbour Accuracy (k-NNA)** to assess overlap between real and generated distributions (the closer to 0.5 the better):
    ```bash
    python ./seq2img/eval_knna.py --species mouse
    ```
 
-   - **Cell type classification** on generated nuclear images:
+   - **Cell type classification** on generated nuclear images (the higher the better):
    ```bash
    python ./seq2img/eval_ct_cls.py --species mouse
    ```
 
 **2. Evaluate generated gene expression**
 
-   - **Per-gene Pearson correlation** between predicted and ground-truth expression across different cell types:
+   - **Per-gene Pearson correlation** between predicted and ground-truth expression across different cell types (the higher the better):
    ```bash
    python ./img2seq/eval_pcorr_acrossCT.py --species mouse
    ```
-   - **Per-gene Pearson correlation** between predicted and ground-truth expression within each cell type:
+   - **Per-gene Pearson correlation** between predicted and ground-truth expression within each cell type (the higher the better):
    ```bash
    python ./img2seq/eval_pcorr_withinCT.py --species mouse
    ```
-   - **Cell type classification** on generated gene expression:
+   - **Cell type classification** on generated gene expression (the higher the better):
    ```bash
    python ./img2seq/eval_ct_cls.py --species mouse
    ```

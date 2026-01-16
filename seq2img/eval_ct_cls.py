@@ -83,7 +83,7 @@ os.makedirs(ckpt_dir, exist_ok=True)
 if args.device is not None:
     device_str = args.device
 else:
-    device_str = "cuda:3" if torch.cuda.is_available() else "cpu"
+    device_str = "cuda" if torch.cuda.is_available() else "cpu"
 device = torch.device(device_str)
 
 print(f"Running IMAGE classifier evaluation (SimpleCNN) for species = {species} on device = {device}")

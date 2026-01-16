@@ -81,7 +81,7 @@ class CustomImageDataset(Dataset):
         return image, self.feature[idx_tmp]
 
 ### 0.3. Select device (GPU if available)
-device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ### 1. Set up models, optimizers, and dataloaders
 ### 1.1. Define Unet backbone used inside the Imagen model

@@ -205,7 +205,7 @@ if __name__ == "__main__":
     species = args.species
 
     # Device (not heavily used here, but kept for consistency)
-    device = "cuda:1" if torch.cuda.is_available() else "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Running within-cell-type correlation evaluation for species = {species} on device = {device}")
 
     ### 2. Load and preprocess data

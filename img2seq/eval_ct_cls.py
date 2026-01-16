@@ -29,7 +29,7 @@ parser.add_argument(
     type=str,
     default=None,
     help="Torch device string, e.g. 'cuda:0' or 'cpu'. "
-         "If not set, will use 'cuda:1' if available, else 'cpu'.",
+         "If not set, will use 'cuda' if available, else 'cpu'.",
 )
 
 args = parser.parse_args()
@@ -39,7 +39,7 @@ species = args.species
 if args.device is not None:
     device_str = args.device
 else:
-    device_str = "cuda:0" if torch.cuda.is_available() else "cpu"
+    device_str = "cuda" if torch.cuda.is_available() else "cpu"
 device = torch.device(device_str)
 
 print(f"Running classifier evaluation for species = {species} on device = {device}")

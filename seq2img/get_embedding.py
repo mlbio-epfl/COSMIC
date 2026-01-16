@@ -59,8 +59,8 @@ adata_paths = {
 }
 
 image_dirs = {
-    "mouse": os.path.join(DATA_DIR, "mouse"),
-    "human": os.path.join(DATA_DIR, "human"),
+    "mouse": os.path.join(DATA_DIR, "images_mouse"),
+    "human": os.path.join(DATA_DIR, "images_human"),
 }
 
 adata_path = adata_paths[species]

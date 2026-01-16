@@ -54,6 +54,8 @@ Below is a high-level workflow. You can adapt paths, configs, and script names t
   ```
 - Unzip the zip file of the nuclear images. You will get images named with `[cell_id].jpg` in the folders `./data/images_mouse` and `./data/images_human`.
 
+If you have paired RNA-seq and image data, you can evaluate COSMIC on your own dataset by following the same data preparation steps and placing your files in the same directory structure (i.e., using the same paths) as in this repo.
+
 ### 2. Training + Inference
 
 You can train COSMIC and run inference in one or both directions:

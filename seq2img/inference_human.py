@@ -29,7 +29,7 @@ def set_seed(seed=42):
 set_seed(42)
 
 ### 0.2. Set device and batch size
-# Use GPU if available (here specifically cuda:2)
+# Use GPU if available (here specifically cuda)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Batch size used during sampling

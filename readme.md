@@ -2,7 +2,7 @@
 
 This repository contains the official code for **COSMIC**, a bidirectional generative model that links single-cell transcriptomics and nuclear morphology images. It includes data preprocessing pipelines, training scripts for both directions (seq2img and img2seq), and evaluation utilities.
 
-The mouse data is available [here](https://drive.google.com/drive/folders/13mFoxXPIhlVMvGOJ0VN06TR3jAsoDs_S?usp=drive_link). (Human data will be released in the future.)
+The data is available after publication [here](https://zenodo.org/records/18313580?preview=1). (Please contact shuo.wen@epfl.ch to get access to the data.)
 
 ---
 
